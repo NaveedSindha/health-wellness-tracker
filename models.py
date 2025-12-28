@@ -8,7 +8,7 @@ db = SQLAlchemy() # Initialize SQLAlchemy ORM instance
 # User Model
 # ------------------------------
 class User (db.Model):
-     """
+    """
     Represents a registered user in the application.
     Stores authentication credentials and related health logs.
     """
@@ -40,7 +40,7 @@ class User (db.Model):
 # HealthLog Model
 # ------------------------------
 class HealthLog(db.Model):
-     """
+    """
     Represents a daily health log for a user.
     Tracks exercise, sleep, water intake, mood, meals, stress, and screen time.
     """
@@ -64,21 +64,51 @@ class HealthLog(db.Model):
 
     def healthScore(self):
         """
-        Computes a health score out of 100 based on:
-        - Sleep (max 30 points)
-        - Exercise (max 30 points)
-        - Water intake (max 20 points)
-        - Mood (max 20 points)
-        Returns an integer score.
+        Computes a professional, realistic health score out of 100.
+        Weighted categories:
+        - Sleep: 25 pts (7-9 hrs ideal, small penalty for oversleep)
+        - Exercise: 25 pts (30-60 min ideal)
+        - Water: 15 pts (6-8 cups ideal)
+        - Mood: 10 pts (1-5 scale)
+        - Meals: 10 pts (3 meals ideal)
+        - Stress: 10 pts (lower is better)
+        - Screen Time: 5 pts (2-4 hrs ideal, penalty if above 6 hrs)
         """
-        sleep_score = min(self.sleep_hours / 8, 1) * 30
-        exercise_score = min(self.exercise_minutes / 30, 1) * 30
-        water_score = min(self.water_cups / 8, 1) * 20
-        mood_score = min(self.mood / 5, 1) * 20
-
-        total = sleep_score + exercise_score + water_score + mood_score
+        sleep_ideal = 8 # 7-9 hours is ideal
+        
+        sleep_score = max(0, min(self.sleep_hours / sleep_ideal, 1)) * 25
+        
+        if self.sleep_hours > 9:  # penalize oversleep slightly
+            sleep_score -= (self.sleep_hours - 9) * 2
+            sleep_score = max(sleep_score, 0)
+        
+        exercise_score = min(self.exercise_minutes / 30, 2) * 12.5  # max 25 pts
+        if self.exercise_minutes > 60:
+            exercise_score = 25
+        
+        # Water: 6-8 cups ideal
+        water_score = min(self.water_cups / 8, 1) * 15
+        
+         # Mood: 1-5 scale
+        mood_score = min(self.mood / 5, 1) * 10
+        
+        meals_score = min(self.meals / 3, 1) * 10 # 3 meals ideal
+        
+        stress_score = max(0, 5 - self.stress) / 5 * 10 # lower is better
+        
+        # Screen time: ideal 2-4 hrs, penalize heavily above 6 hrs
+        if self.screen_time_hours <= 4:
+            screen_score = 5
+        elif self.screen_time_hours <= 6:
+            screen_score = 3
+        
+        else:
+            screen_score = max(0, 5 - (self.screen_time_hours - 4))  # heavy penalty
+            screen_score = max(screen_score, 0)
+        
+        total = sleep_score + exercise_score + water_score + mood_score + meals_score + stress_score + screen_score
         return round(total)
-
+        
     def to_dict(self):
         """
         Converts the HealthLog object to a JSON-serializable dictionary.
@@ -100,7 +130,7 @@ class HealthLog(db.Model):
 # Goal Model
 # ------------------------------
 class Goal (db.Model):
-     """
+    """
     Represents a health goal for a user.
     Tracks type (exercise, sleep, water, mood, meals, stress, screen time),
     target value, period (daily/weekly/monthly), and completion status.
@@ -121,7 +151,7 @@ class Goal (db.Model):
     user = db.relationship('User', backref='goals') # Relationship to user
 
     def to_dict(self):
-         """
+        """
         Converts the Goal object to a JSON-serializable dictionary.
         """
         return {

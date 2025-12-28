@@ -28,7 +28,7 @@ with app.app_context():
 # ------------------------------
 @app.before_request
 def load_user():
-     """
+    """
     Loads the currently logged-in user before each request.
     Redirects unauthenticated users to login page unless accessing public paths.
     """
@@ -50,7 +50,7 @@ def load_user():
 # ------------------------------
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
-     """
+    """
     Handles user registration.
     GET: Render signup page
     POST: Create new user if username doesn't exist
@@ -71,7 +71,7 @@ def signup():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-     """
+    """
     Handles user login.
     GET: Render login page
     POST: Authenticate user and create session
@@ -93,7 +93,7 @@ def login():
 
 @app.route('/logout')
 def logout ():
-     """Logs out the current user by clearing session."""
+    """Logs out the current user by clearing session."""
     session.pop('user_id', None)
     return redirect(url_for('login'))
 
@@ -140,7 +140,7 @@ def add_log():
 
 @app.route('/log/<log_date>', methods=['PUT'])
 def update_log(log_date):
-     """Update an existing health log by date."""
+    """Update an existing health log by date."""
     data = request.json
 
     log_date = date.fromisoformat(log_date) # Convert URL parameter to date object
@@ -165,7 +165,7 @@ def update_log(log_date):
 
 @app.route('/logs', methods=['GET'])
 def get_logs():
- """Return all logs for the current user, sorted by date."""
+    """Return all logs for the current user, sorted by date."""
     logs = HealthLog.query.filter_by(
         user_id=g.user.id
     ).order_by(HealthLog.date).all()
@@ -326,7 +326,7 @@ def delete_goals (goal_id):
 
 @app.route('/change-password')
 def change_password_page():
-     """Render change password page."""
+    """Render change password page."""
     if not g.user:
         return redirect(url_for('login'))
 
