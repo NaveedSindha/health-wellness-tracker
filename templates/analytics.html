@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Analytics | Health & Wellness Tracker</title>
+
+    <!-- Shared app styling -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="app-container">
+
+        <!-- Header -->
+        <h1>Analytics</h1>
+        <p class="subtitle">Weekly and monthly insights from your health data</p>
+
+        <!-- Controls -->
+        <div class="card">
+            <button id="weeklyBtn">Weekly</button>
+            <button id="monthlyBtn">Monthly</button>
+        </div>
+
+        <!-- Chart -->
+        <div class="card">
+            <canvas id="analyticsChart"></canvas>
+        </div>
+
+    </div>
+
+    <!-- Analytics logic -->
+    <script src="{{ url_for('static', filename='analytics.js') }}"></script>
+</body>
+
+</html>

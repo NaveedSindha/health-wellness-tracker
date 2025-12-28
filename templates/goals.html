@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Goals</title>
+    <!-- ------------------------------
+         Shared app styling
+         - Provides consistent layout and styling across pages
+    ------------------------------ -->
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <div class="app-container">
+
+        <h1>
+            Your Goals
+        </h1>
+
+        <div class="card">
+            <h2>Create Goal</h2>
+
+            <!-- ------------------------------
+                 Goal Type Dropdown
+                 - User selects which category to track (exercise, sleep, water, etc.)
+            ------------------------------ -->
+            <select id="goalType">
+
+                <option value="exercise"> Exercise (Minutes)</option>
+                <option value="sleep">Sleep (Hours)</option>
+                <option value="water"> Water (Cups)</option>
+                <option value="mood">Mood (1-5)</option>
+                <option value="meals">Meals (Number)</option>
+                <option value="stress">Stress (1-5)</option>
+                <option value="screen_time">Screen Time (Hours)</option>
+            </select>
+
+            <!-- ------------------------------
+                 Target Input
+                 - User enters the numeric target for the selected goal
+            ------------------------------ -->
+            <input type="number" id="goalTarget" placeholder="Target Value">
+
+            <!-- ------------------------------
+                 Goal Period Dropdown
+                 - User selects how often the goal should be measured (daily, weekly, monthly)
+            ------------------------------ -->
+            <select id="goalPeriod">
+                <option value="daily">Daily</option>
+                <option value="weekly">Weekly</option>
+                <option value="monthly">Monthly</option>
+            </select>
+            <!-- ------------------------------
+                 Add Goal Button
+                 - Calls addGoal() function in goals.js to submit the new goal
+            ------------------------------ -->
+            <button onclick="addGoal()">Add Goal</button>
+        </div>
+        <!-- ------------------------------
+             Active Goals Card
+             - Displays all the user's currently active goals
+             - Goals are dynamically loaded into the #goalList div via JavaScript
+        ------------------------------ -->
+        <div class="card">
+            <h2>Active Goals</h2>
+            <div id="goalList"></div>
+        </div>
+
+    </div>
+
+    <script src="/static/goals.js"></script>
+</body>
+
+</html>

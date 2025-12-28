@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Health & Wellness Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- ------------------------------
+         Chart.js
+         - Used to visualize health trends over time
+    ------------------------------ -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- ------------------------------
+             App header
+             - Displays app name and description
+        ------------------------------ -->
+        <h1>Health & Wellness Tracker</h1>
+        <p class="subtitle">Track your daily habits and visualize your progress</p>
+
+        <!-- ------------------------------
+             Navigation buttons
+             - Links to analytics, goals, password management, and logout
+        ------------------------------ -->
+        <div class="nav-buttons">
+            <a href="/analytics" class="btn">View Analytics</a>
+            <a href="/goals" class="btn">Goals</a>
+            <a href="/change-password" class="btn">Change Password</a>
+            <a href="/logout" class="btn logout-btn">Logout</a>
+        </div>
+        <!-- ------------------------------
+             Daily Health Score
+             - Dynamically updated via JavaScript
+             - Aggregates multiple health metrics into a score
+        ------------------------------ -->
+        <div class="card health-score-card">
+            <h2 id="healthScore">Daily Health Score: -- / 100</h2>
+        </div>
+
+        <!-- ------------------------------
+             Health log form
+             - Allows users to add or update a daily log
+        ------------------------------ -->
+        <form id="logForm" class="card">
+            <!-- Date selection -->
+            <div class="form-group">
+                <label>Date</label>
+                <input type="date" id="date" required>
+            </div>
+            <!-- Exercise input -->
+            <div class="form-group">
+                <label>Exercise (minutes)</label>
+                <input type="number" id="exercise" required min="0">
+            </div>
+            <!-- Sleep input -->
+            <div class="form-group">
+                <label>Sleep (hours)</label>
+                <input type="number" step="0.1" id="sleep" required min="0">
+            </div>
+            <!-- Water intake input -->
+            <div class="form-group">
+                <label>Water (cups)</label>
+                <input type="number" id="water" required min="0">
+            </div>
+
+            <!-- Mood selection -->
+            <div class="form-group">
+                <label>Mood</label>
+                <select id="mood" required>
+                    <option value="1">😞 Very Bad</option>
+                    <option value="2">😕 Bad</option>
+                    <option value="3" selected>😐 Okay</option>
+                    <option value="4">🙂 Good</option>
+                    <option value="5">😄 Great</option>
+                </select>
+            </div>
+            <!-- Meals input -->
+            <div class="form-group">
+                <label>Number of Meals</label>
+                <input type="number" id="meals" min="0" max="10" value="3" required min="0">
+            </div>
+
+            <!-- Stress level selection -->
+            <div class="form-group">
+                <label>Stress Level</label>
+                <select id="stress" required>
+                    <option value="1">😞 Very High</option>
+                    <option value="2">😟 High</option>
+                    <option value="3" selected>😐 Moderate</option>
+                    <option value="4">🙂 Low</option>
+                    <option value="5">😄 Very Low</option>
+                </select>
+            </div>
+            <!-- Screen time input -->
+            <div class="form-group">
+                <label>Screen Time (hours)</label>
+                <input type="number" step="0.1" id="screen" min="0" max="24" value="0" required>
+            </div>
+
+            <!-- Submit button -->
+            <button type="submit">Add Log / Update Log </button>
+        </form>
+
+        <!-- ------------------------------
+             Trends chart
+             - Visualizes recent health data trends
+        ------------------------------ -->
+        <div class="card">
+            <h2>Trends</h2>
+            <canvas id="myChart"></canvas>
+        </div>
+        <!-- ------------------------------
+             Log history section
+             - Displays previously submitted daily logs
+        ------------------------------ -->
+        <div class="card">
+            <h2>Logs</h2>
+            <div id="logList"></div>
+        </div>
+    </div>
+    <!-- ------------------------------
+         Dashboard logic
+         - Handles form submission, chart updates, and log rendering
+    ------------------------------ -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+
+</html>

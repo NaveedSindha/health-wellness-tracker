@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login | Health Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="auth-container">
+        <!-- ------------------------------
+             Login card
+             - Contains username/password inputs and login button
+        ------------------------------ -->
+        <div class="auth-card">
+            <h2>Login</h2>
+            <input id="username" placeholder="Username">
+            <input id="password" type="password" placeholder="Password">
+            <button onclick="login()">Login</button>
+            <!-- ------------------------------
+                 Signup link
+                 - Navigates users without an account to the signup page
+            ------------------------------ -->
+            <p>No account? <a href="/signup">Sign up</a></p>
+        </div>
+    </div>
+    <!-- ------------------------------
+         JavaScript: Handles login request
+         - Sends POST request to /login endpoint
+         - Uses credentials: 'include' to allow cookies/session
+         - Redirects to home page on success, alerts on failure
+    ------------------------------ -->
+    <script>
+        async function login() {
+            const res = await fetch('/login', {
+                method: 'POST',
+                credentials: 'include', // ensures session cookie is sent
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    username: username.value,
+                    password: password.value
+                })
+            });
+            // Redirect if login is successful, else show alert
+            if (res.ok) location.href = '/';
+            else alert('Login failed');
+        }
+    </script>
+</body>
+
+</html>

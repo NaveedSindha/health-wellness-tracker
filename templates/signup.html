@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Signup | Health Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <h2>Create Account</h2>
+
+            <!-- Username -->
+            <input id="username" type="text" placeholder="Username" required>
+
+            <!-- Email with validation -->
+            <input id="email" type="email" placeholder="Email" required>
+
+            <!-- Password -->
+            <input id="password" type="password" placeholder="Password" required>
+
+            <button onclick="signup()">Sign Up</button>
+
+            <p>Already have an account? <a href="/login">Login</a></p>
+        </div>
+    </div>
+
+    <!-- ------------------------------
+         JavaScript: Signup logic
+         - Sends POST request to /signup endpoint
+         - Submits username, email, and password as JSON
+         - Redirects to login page on success
+    ------------------------------ -->
+    <script>
+        async function signup() {
+            const res = await fetch('/signup', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    username: username.value,
+                    email: email.value,
+                    password: password.value
+                })
+            });
+
+            if (res.ok) location.href = '/login';
+            else alert('Signup failed');
+        }
+    </script>
+</body>
+
+</html>
