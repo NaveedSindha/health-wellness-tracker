@@ -43,5 +43,9 @@ python -m venv venv
 source venv/bin/activate  # macOS/Linux
 venv\Scripts\activate     # Windows
 
+#Install Flask Requirements
+
+pip install flask flask_sqlalchemy flask_cors
+
 # Run app
 python app.py
