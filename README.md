@@ -49,3 +49,6 @@ pip install flask flask_sqlalchemy flask_cors
 
 # Run app
 python app.py
+
+# Visit
+http://127.0.0.1:5000/
